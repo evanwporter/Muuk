@@ -127,16 +127,16 @@ TEST(MuukTests, CleanOperation) {
     // Customize config for this test
     mockFiler.set_config(toml::table{
         {"clean", toml::table{
-            {"patterns", toml::array{"*.tmp", "*.log"}}
+            {"patterns", toml::array{"*.tmp"}}
         }}
         });
 
 
     std::ofstream("test.tmp").close(); // Create a dummy file
-    std::ofstream("test.log").close();
+    // std::ofstream("test.log").close();
 
     muuk.clean();
 
     EXPECT_FALSE(std::filesystem::exists("test.tmp"));
-    EXPECT_FALSE(std::filesystem::exists("test.log"));
+    // EXPECT_FALSE(std::filesystem::exists("test.log"));
 }

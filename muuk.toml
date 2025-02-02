@@ -17,7 +17,7 @@ sources = [
 patterns = ['*.lib']
 
 [dependencies]
-gabime-spdlog = 'v1.15.0'
+gabime-spdlog = 'v1.15.1'
 google-googletest = 'v1.15.2'
 kuba---zip = 'v0.3.3'
 nlohmann-json = 'v3.11.3'

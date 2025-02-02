@@ -19,6 +19,20 @@ zip_dep = declare_dependency(
     sources: zip_src, # Include the C source file
     include_directories: include_directories('modules/kuba---zip-v0.3.3/src'), # Make headers accessible
 )
+zip_src = files(
+    # './modules/kuba---zip-v0.3.3/src/miniz.h',
+    'modules/kuba---zip-v0.3.3/src/zip.c',
+    # './modules/kuba---zip-v0.3.3/src/zip.h',
+) # Add the library files here
+zip_dep = declare_dependency(
+    sources: zip_src, # Include the C source file
+    include_directories: include_directories('modules/kuba---zip-v0.3.3/src'), # Make headers accessible
+)
+
+glob_dep = declare_dependency(
+    sources: 'modules/glob/src/glob.cpp',
+    include_directories: 'modules/glob/include',
+)
 
 executable(
     'muuk',
@@ -33,7 +47,7 @@ executable(
         'src/ninjagen.cpp',
     ],
     install: true,
-    dependencies: [json_dep, argparse_dep, zip_dep, log_dep],
+    dependencies: [json_dep, argparse_dep, zip_dep, log_dep, glob_dep],
 )
 
 # Add tests only if the build type is not 'release'
@@ -65,6 +79,7 @@ if get_option('buildtype') != 'release'
             argparse_dep,
             zip_dep,
             log_dep,
+            glob_dep,
         ],
         win_subsystem: 'console',
     )
