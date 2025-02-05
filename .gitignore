@@ -1,4 +1,4 @@
-subprojects/
+# subprojects/
 logs/
 obj/
 __pycache__/
@@ -14,4 +14,4 @@ build/
 build.ninja
 github_api_response.json
 .ninja_log
-meson.build
+# meson.build
