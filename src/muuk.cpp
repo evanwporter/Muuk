@@ -237,17 +237,17 @@ void Muuk::download_patch(const std::string& author, const std::string& repo_nam
     std::string temp_patch_path = modules_folder + "/" + patch_name;
     std::string final_patch_path = module_folder + "/muuk.toml";
 
-    // Ensure the module folder exists
-    if (!fs::exists(module_folder)) {
-        logger_->error("[muuk::patch] Target module folder '{}' does not exist. Cannot apply patch.", module_folder);
-        return;
-    }
+    util::ensure_directory_exists(module_folder);
 
     try {
         logger_->info("[muuk::patch] Downloading patch from {}", patch_url);
-        util::download_file(patch_url, temp_patch_path);
+        util::download_file(patch_url, temp_patch_path);  // Since download_file returns void, no direct error handling
 
-        // Move and rename patch
+        if (!fs::exists(temp_patch_path)) {
+            logger_->warn("[muuk::patch] Patch file '{}' was not found after download. Skipping.", temp_patch_path);
+            return;
+        }
+
         fs::rename(temp_patch_path, final_patch_path);
         logger_->info("[muuk::patch] Patch successfully applied to '{}'", final_patch_path);
     }
