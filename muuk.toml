@@ -21,7 +21,8 @@ spdlog = "v1.15.1"
 zip = "v0.3.3"
 json = "v3.11.3"
 argparse = "v3.2"
-glob = "v0.0.1"
+glob = "v0.3"
+cracklib = "v0.0.3"
 
 [build.bin]
 dependencies = { "muuk" = "v1.0.0" }

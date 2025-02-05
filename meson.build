@@ -7,29 +7,28 @@ argparse_dep = dependency('argparse')
 zip_src = files(
     # './modules/kuba---zip-v0.3.3/src/miniz.h',
 
-
     'modules/kuba---zip-v0.3.3/src/zip.c',
     # './modules/kuba---zip-v0.3.3/src/zip.h',
 
-
 ) # Add the library files here
-
 
 zip_dep = declare_dependency(
     sources: zip_src, # Include the C source file
 
+    include_directories: include_directories('modules/kuba---zip-v0.3.3/src'),
 
-    include_directories: include_directories('modules/kuba---zip-v0.3.3/src'), # Make headers accessible
+)
 
-
+cracklib_dep = declare_dependency(
+    sources: 'modules/evanwporter-cracklib-v0.0.3/src/cracklib.cpp',
+    include_directories: include_directories('modules/evanwporter-cracklib-v0.0.3/include'),
 )
 
 glob_dep = declare_dependency(
-    sources: 'modules/p-ranav-glob-v0.0.1/source/glob.cpp',
-    include_directories: 'modules/p-ranav-glob-v0.0.1/include',
-)
+    # sources: 'modules/p-ranav-glob-v0.0.1/source/glob.cpp',
 
-cjson_dep = dependency('cjson')
+    include_directories: 'modules/p-ranav-glob-v0.3/single_include',
+)
 
 executable(
     'muuk',
@@ -44,11 +43,10 @@ executable(
         'src/ninjagen.cpp',
     ],
     install: true,
-    dependencies: [json_dep, argparse_dep, zip_dep, log_dep, glob_dep, cjson_dep],
+    dependencies: [json_dep, argparse_dep, zip_dep, log_dep, glob_dep, cracklib_dep],
 )
 
 # Add tests only if the build type is not 'release'
-
 
 if get_option('buildtype') != 'release'
     gtest_dep = dependency('gtest', required: true)
@@ -57,16 +55,13 @@ if get_option('buildtype') != 'release'
 
     # Test executable
 
-
     test_executable = executable(
         'muuktest',
         [
             'tests/internal/muuk_test.cpp',
             # 'tests/util_test.hpp',
 
-
             # 'tests/muuk_test.hpp',
-
 
             'src/logger.cpp',
             'src/util.cpp',
@@ -85,13 +80,12 @@ if get_option('buildtype') != 'release'
             zip_dep,
             log_dep,
             glob_dep,
-            cjson_dep,
+            cracklib_dep,
         ],
         win_subsystem: 'console',
     )
 
     # Add the test
-
 
     test('muuktest', test_executable)
 endif
