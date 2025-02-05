@@ -1,3 +1,0 @@
-[submodule "modules/glob"]
-	path = modules/glob
-	url = https://github.com/evanwporter/glob.git
